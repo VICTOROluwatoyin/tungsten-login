@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Tungsten{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">Admin Dashboard</h3>
+                <span class="badge bg-primary">Admin</span>
+            </div>
+            <div class="card-body">
+                <h4>Welcome, {{ user.email }}!</h4>
+                <p>As the administrator, you can add new staff members and clients.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Add New User</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('add_user') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" required onchange="toggleCompanyFields()">
+                            <option value="">Select a role</option>
+                            <option value="staff">Staff</option>
+                            <option value="client">Client</option>
+                        </select>
+                    </div>
+                    <div id="companyFields" style="display: none;">
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name">
+                            <div class="form-text">For new companies, enter a name. For existing companies, use Company ID below.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="company_id" class="form-label">Company ID (optional)</label>
+                            <input type="text" class="form-control" id="company_id" name="company_id">
+                            <div class="form-text">If adding to an existing company, enter the company ID.</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Available Tools</h4>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Meeting Scheduler</h5>
+                            <small class="text-muted">Tool</small>
+                        </div>
+                        <p class="mb-1">Schedule meetings with clients</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Website Scraper</h5>
+                            <small class="text-muted">Tool</small>
+                        </div>
+                        <p class="mb-1">Extract data from websites</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">URL Shortener</h5>
+                            <small class="text-muted">Tool</small>
+                        </div>
+                        <p class="mb-1">Create short URLs for marketing</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleCompanyFields() {
+        const role = document.getElementById('role').value;
+        const companyFields = document.getElementById('companyFields');
+        
+        if (role === 'client') {
+            companyFields.style.display = 'block';
+        } else {
+            companyFields.style.display = 'none';
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Client Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Client Dashboard</h3>
+                    <a href="{{ url_for('logout') }}" class="btn btn-light btn-sm">Logout</a>
+                </div>
+                <div class="card-body">
+                    <h4>Welcome, {{ session['user']['name'] if session['user'].get('name') else session['user']['email'] }}</h4>
+                    <p>You are logged in as a client.</p>
+                    {% if session['user'].get('custom:company_id') %}
+                    <p>Company ID: {{ session['user']['custom:company_id'] }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Your Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Account Details</h5>
+                            <table class="table">
+                                <tr>
+                                    <th>Email:</th>
+                                    <td>{{ session['user']['email'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Role:</th>
+                                    <td>Client</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Login:</th>
+                                    <td>{{ now.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Company Information</h5>
+                            <table class="table">
+                                <tr>
+                                    <th>Company ID:</th>
+                                    <td>{{ session['user'].get('custom:company_id', 'N/A') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

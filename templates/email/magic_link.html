@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Tungsten Login Link</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #343a40;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-top: none;
+        }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 24px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #777777;
+        }
+        .expiry {
+            font-style: italic;
+            color: #666666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tungsten Login</h1>
+        </div>
+        <div class="content">
+            <h2>Your Magic Login Link</h2>
+            <p>Click the button below to sign in to your Tungsten account:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ magic_link }}" class="button">Sign In to Tungsten</a>
+            </div>
+            
+            <p class="expiry">This link will expire in 15 minutes.</p>
+            
+            <p>If you did not request this link, please ignore this email.</p>
+            
+            <p>If the button above doesn't work, copy and paste the following URL into your browser:</p>
+            <p style="word-break: break-all; font-size: 14px;">{{ magic_link }}</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 Tungsten Advertising. All rights reserved.</p>
+            <p>This email was sent to you because someone requested a login link for your account.</p>
+        </div>
+    </div>
+</body>
+</html>

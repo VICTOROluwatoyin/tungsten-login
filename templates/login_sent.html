@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Temporary Password Sent{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Temporary Password Sent</h3>
+                </div>
+                <div class="card-body text-center">
+                    <i class="fas fa-envelope-open-text fa-4x mb-3 text-primary"></i>
+                    <h4>Check Your Email</h4>
+                    <p class="mb-4">We've sent a temporary password to <strong>{{ email }}</strong></p>
+                    <p>Enter the temporary password to sign in to your account.</p>
+                    <p class="text-muted small">The temporary password will expire in 15 minutes.</p>
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="{{ url_for('verify_password', email=email) }}" class="btn btn-primary">Enter Temporary Password</a>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">Didn't receive the email? <a href="{{ url_for('login') }}">Try again</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

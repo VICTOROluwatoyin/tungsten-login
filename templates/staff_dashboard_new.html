@@ -1,0 +1,213 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Staff Dashboard - Tungsten{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <h1 class="mt-2 mb-4">Staff Dashboard</h1>
+    
+    <!-- Clients Section -->
+    <div id="clientsSection" class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Client Management</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="list-group" id="client-list">
+                                {% for user in client_users %}
+                                <a href="#" class="list-group-item list-group-item-action client-item" data-client-id="{{ loop.index }}">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ user.email }}</h5>
+                                        <small>{{ user.created_date }}</small>
+                                    </div>
+                                    <p class="mb-1">Company ID: {{ user.company_id }}</p>
+                                    <small>
+                                        {% if user.status == 'CONFIRMED' %}
+                                        <span class="badge bg-success">Confirmed</span>
+                                        {% else %}
+                                        <span class="badge bg-warning text-dark">{{ user.status }}</span>
+                                        {% endif %}
+                                    </small>
+                                </a>
+                                {% else %}
+                                <div class="list-group-item">
+                                    <p class="mb-0 text-center">No clients found</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card" id="client-details">
+                                <div class="card-header bg-light">
+                                    <h4 id="selected-client-name">Select a client to view details</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div id="no-client-selected">
+                                        <p class="text-center text-muted">Click on a client from the list to view their details</p>
+                                    </div>
+                                    {% for user in client_users %}
+                                    <div class="client-details-content" id="client-details-{{ loop.index }}" style="display: none;">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <h5>Contact Information</h5>
+                                                <p><strong>Email:</strong> {{ user.email }}</p>
+                                                <p><strong>Company ID:</strong> {{ user.company_id }}</p>
+                                                <p><strong>Status:</strong> {{ user.status }}</p>
+                                                <p><strong>Created:</strong> {{ user.created_date }}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Account Activity</h5>
+                                                <p><strong>Last Login:</strong> Today</p>
+                                                <p><strong>Active Projects:</strong> 3</p>
+                                                <p><strong>Files Shared:</strong> 12</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>Recent Activity</h5>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Logged in
+                                                        <span class="badge bg-primary rounded-pill">Today</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Uploaded document
+                                                        <span class="badge bg-primary rounded-pill">Yesterday</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Used Link Shortener
+                                                        <span class="badge bg-primary rounded-pill">3 days ago</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <button class="btn btn-primary">Contact Client</button>
+                                                <button class="btn btn-outline-primary">View Files</button>
+                                                <button class="btn btn-outline-secondary">Generate Report</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tools Section -->
+    <div id="toolsSection" class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Tools</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <a href="https://tngstn.com/admin" class="text-decoration-none" target="_blank">
+                                <div class="tool-card bg-light p-3">
+                                    <i class="bi bi-link-45deg text-primary"></i>
+                                    <h5>Link Shortener</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="tool-card bg-light p-3">
+                                <i class="bi bi-file-earmark-arrow-up text-success"></i>
+                                <h5>File Transfer System</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="tool-card bg-light p-3">
+                                <i class="bi bi-chat-dots text-info"></i>
+                                <h5>AI Chatbot</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="tool-card bg-light p-3">
+                                <i class="bi bi-calendar-check text-warning"></i>
+                                <h5>Appointment Scheduler</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="tool-card bg-light p-3">
+                                <i class="bi bi-graph-up text-danger"></i>
+                                <h5>Analytics Dashboard</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="tool-card bg-light p-3">
+                                <i class="bi bi-envelope text-secondary"></i>
+                                <h5>Email Campaign</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Client details view
+        const clientItems = document.querySelectorAll('.client-item');
+        const clientDetailsContents = document.querySelectorAll('.client-details-content');
+        const noClientSelected = document.getElementById('no-client-selected');
+        const selectedClientName = document.getElementById('selected-client-name');
+        
+        clientItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get client ID from data attribute
+                const clientId = this.getAttribute('data-client-id');
+                
+                // Hide all client details
+                clientDetailsContents.forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Hide no client selected message
+                noClientSelected.style.display = 'none';
+                
+                // Show selected client details
+                const selectedClientDetails = document.getElementById('client-details-' + clientId);
+                if (selectedClientDetails) {
+                    selectedClientDetails.style.display = 'block';
+                }
+                
+                // Update selected client name
+                selectedClientName.textContent = this.querySelector('h5').textContent;
+                
+                // Add active class to selected client
+                clientItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Smooth scroll to sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Tungsten</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #343a40;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-top: none;
+        }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 24px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #777777;
+        }
+        .role-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #6c757d;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Tungsten</h1>
+        </div>
+        <div class="content">
+            <h2>You've Been Invited!</h2>
+            <p>You have been invited to join Tungsten as a <strong>{{ role }}</strong> user. Click the button below to access your dashboard:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ magic_link }}" class="button">Sign In to Tungsten</a>
+            </div>
+            
+            <h3>What is Tungsten?</h3>
+            <p>Tungsten provides a suite of specialized tools for marketing, scheduling, and web services. Your account gives you access to:</p>
+            <ul>
+                <li>Meeting Scheduler</li>
+                <li>Website Scraper</li>
+                <li>URL Shortener</li>
+                <li>And more...</li>
+            </ul>
+            
+            <p>If you have any questions, please contact our admin at <a href="mailto:vegbinade@tungstenadvertising.com">vegbinade@tungstenadvertising.com</a>.</p>
+            
+            <p>If the button above doesn't work, copy and paste the following URL into your browser:</p>
+            <p style="word-break: break-all; font-size: 14px;">{{ magic_link }}</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 Tungsten Advertising. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

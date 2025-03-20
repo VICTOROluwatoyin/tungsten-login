@@ -1,0 +1,142 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Link Shortener - Tungsten{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center mb-4">
+            <img src="{{ url_for('static', filename='img/tungsten_logo.png') }}" alt="Tungsten Logo" class="me-3" style="max-width: 50px;">
+            <h1>Link Shortener</h1>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <img src="{{ url_for('static', filename='img/tungsten_logo.png') }}" alt="Tungsten Logo" class="me-3" style="height: 40px;">
+                    <h3 class="mb-0">Link Shortener</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form action="{{ url_for('create_short_link') }}" method="POST">
+                                <div class="mb-3">
+                                    <label for="original_url" class="form-label">URL to Shorten</label>
+                                    <input type="text" class="form-control" id="original_url" name="original_url" placeholder="https://example.com/long-url-to-shorten" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="custom_code" class="form-label">Custom Code (Optional)</label>
+                                    <input type="text" class="form-control" id="custom_code" name="custom_code" placeholder="e.g., my-link">
+                                    <div class="form-text">Leave blank for an auto-generated code.</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Shorten URL</button>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">About Link Shortener</h5>
+                                    <p class="card-text">Create short, memorable links for your long URLs. Perfect for sharing on social media, emails, or any other platform.</p>
+                                    <ul>
+                                        <li>Track clicks on your shortened links</li>
+                                        <li>Create custom short codes</li>
+                                        <li>Manage all your links in one place</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Your Links</h3>
+                </div>
+                <div class="card-body">
+                    {% if links %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Short URL</th>
+                                    <th>Original URL</th>
+                                    <th>Created</th>
+                                    <th>Clicks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for link in links %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url_for('redirect_short_link', short_code=link.short_code, _external=True) }}" target="_blank">
+                                            {{ url_for('redirect_short_link', short_code=link.short_code, _external=True) }}
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-primary copy-btn" data-url="{{ url_for('redirect_short_link', short_code=link.short_code, _external=True) }}">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <a href="{{ link.original_url }}" target="_blank" class="text-truncate d-inline-block" style="max-width: 250px;">
+                                            {{ link.original_url }}
+                                        </a>
+                                    </td>
+                                    <td>{{ link.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ link.clicks }}</td>
+                                    <td>
+                                        <form action="{{ url_for('delete_short_link', link_id=link.id) }}" method="POST" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this link?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        You haven't created any shortened links yet. Use the form above to create your first link.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Copy to clipboard functionality
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                navigator.clipboard.writeText(url).then(() => {
+                    // Change button text temporarily
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="bi bi-check"></i>';
+                    this.classList.add('btn-success');
+                    this.classList.remove('btn-outline-primary');
+                    
+                    // Revert after 2 seconds
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                        this.classList.remove('btn-success');
+                        this.classList.add('btn-outline-primary');
+                    }, 2000);
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

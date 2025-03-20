@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Enter One-Time Password{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Enter One-Time Password</h3>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img src="{{ url_for('static', filename='img/tungsten_logo.png') }}" alt="Tungsten Logo" class="img-fluid mb-3" style="max-width: 150px;">
+                        <h2>Enter One-Time Password</h2>
+                    </div>
+                    <p class="mb-4">Enter the one-time password sent to your email to log in.</p>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form method="POST" action="{{ url_for('verify_otp') }}">
+                        <div class="form-group mb-3">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ email }}" readonly>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="otp">One-Time Password</label>
+                            <input type="text" class="form-control" id="otp" name="otp" required autofocus>
+                            <small class="form-text text-muted">Enter the code exactly as it appears in your email from AWS Cognito. Make sure there are no extra spaces.</small>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">Didn't receive a code? <a href="{{ url_for('login') }}">Try again</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

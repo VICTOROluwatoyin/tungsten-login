@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Edit User</h3>
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light btn-sm">Back to Dashboard</a>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('edit_user', username=user.username) }}" method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" readonly>
+                                <small class="text-muted">Email cannot be changed</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="role" class="form-label">Role</label>
+                                <select class="form-select" id="role" name="role" required>
+                                    <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                                    <option value="staff" {% if user.role == 'staff' %}selected{% endif %}>Staff</option>
+                                    <option value="client" {% if user.role == 'client' %}selected{% endif %}>Client</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row client-fields" {% if user.role != 'client' %}style="display: none;"{% endif %}>
+                            <div class="col-md-6 mb-3">
+                                <label for="company_name" class="form-label">Company Name</label>
+                                <input type="text" class="form-control" id="company_name" name="company_name">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="company_id" class="form-label">Company ID</label>
+                                <input type="text" class="form-control" id="company_id" name="company_id" value="{{ user.company_id }}">
+                                <small class="text-muted">Leave blank to generate automatically from company name</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleSelect = document.getElementById('role');
+        const clientFields = document.querySelector('.client-fields');
+        
+        // Show/hide client fields based on role selection
+        roleSelect.addEventListener('change', function() {
+            if (this.value === 'client') {
+                clientFields.style.display = 'flex';
+            } else {
+                clientFields.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

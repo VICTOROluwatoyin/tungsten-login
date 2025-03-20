@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Staff Dashboard - Tungsten{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">Staff Dashboard</h3>
+                <span class="badge bg-info">Staff</span>
+            </div>
+            <div class="card-body">
+                <h4>Welcome, {{ user.email }}!</h4>
+                <p>Here you can access tools and manage client projects.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Available Tools</h4>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Meeting Scheduler</h5>
+                            <small class="text-muted">Tool</small>
+                        </div>
+                        <p class="mb-1">Schedule meetings with clients</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Website Scraper</h5>
+                            <small class="text-muted">Tool</small>
+                        </div>
+                        <p class="mb-1">Extract data from websites</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">URL Shortener</h5>
+                            <small class="text-muted">Tool</small>
+                        </div>
+                        <p class="mb-1">Create short URLs for marketing</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Clients</h4>
+            </div>
+            <div class="card-body">
+                {% if companies %}
+                    <div class="accordion" id="clientsAccordion">
+                        {% for company_id, clients in companies.items() %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ loop.index }}">
+                                    <button class="accordion-button {% if loop.index != 1 %}collapsed{% endif %}" type="button" 
+                                            data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" 
+                                            aria-expanded="{% if loop.index == 1 %}true{% else %}false{% endif %}"
+                                            aria-controls="collapse{{ loop.index }}">
+                                        Company: {% if company_id %}{{ company_id }}{% else %}Unassigned{% endif %}
+                                        <span class="badge bg-secondary ms-2">{{ clients|length }}</span>
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ loop.index }}" class="accordion-collapse collapse {% if loop.index == 1 %}show{% endif %}" 
+                                     aria-labelledby="heading{{ loop.index }}" data-bs-parent="#clientsAccordion">
+                                    <div class="accordion-body">
+                                        <ul class="list-group">
+                                            {% for client in clients %}
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    {{ client.email }}
+                                                    <div>
+                                                        <a href="#" class="btn btn-sm btn-outline-primary">Message</a>
+                                                        <a href="#" class="btn btn-sm btn-outline-info">Projects</a>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No clients available. The admin will add clients that you'll be able to see here.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
