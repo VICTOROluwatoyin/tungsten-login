@@ -18,6 +18,7 @@ from config import Config
 from models import db, ShortLink
 import random
 import string
+from aws_config import configure_aws_credentials
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -39,12 +40,13 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+# Configure AWS credentials
+configure_aws_credentials()
+
 # Initialize AWS Cognito client
 cognito_client = boto3.client(
     'cognito-idp',
-    region_name=app.config['AWS_REGION'],
-    aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
-    aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
+    region_name=app.config['AWS_REGION']
 )
 
 # Serializer for generating secure tokens
